@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>永續資本控管中樞 (雲端動態同步版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #090d16; color: #f1f5f9; font-family: 'PingFang TC', sans-serif; }
+    </style>
+</head>
+<body class="p-4 lg:p-6">
+    <div class="max-w-7xl mx-auto border-b border-slate-800 pb-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-xl font-black tracking-wider text-indigo-400 uppercase flex items-center gap-2">
+                <span class="inline-block w-3 h-3 bg-indigo-500 rounded-sm"></span>
+                Institutional Liquidity Regime Overlay System
+            </h1>
+            <p class="text-slate-400 text-[11px] font-mono mt-0.5">系統狀態：數據每日全自動同步更新 // AUTOMATIC ENGINE ACTIVE</p>
+        </div>
+        <div class="text-right text-xs text-slate-500 font-mono">
+            最後資料更新時間：<span class="text-indigo-400 font-bold">2026-05-25 17:49</span>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 space-y-4">
+            <div class="bg-slate-900 rounded-xl p-4 border border-slate-800">
+                <h3 class="text-xs font-bold text-indigo-400 border-b border-slate-800 pb-2 mb-3">📡 今日自動採集權威指標矩陣</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
+                        <span class="text-slate-400">全美金融條件 (FRED: NFCI)</span>
+                        <span class="font-mono text-sky-400 font-bold">0.0 (發布日:N/A)</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
+                        <span class="text-slate-400">薩姆規則衰退指標 (Sahm Rule)</span>
+                        <span class="font-mono text-emerald-400 font-bold">0.0% (發布日:N/A)</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
+                        <span class="text-slate-400">BBB級投資公司債利差</span>
+                        <span class="font-mono text-amber-400 font-bold">0.0%</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
+                        <span class="text-slate-400">台股大盤 200MA 歷史乖離率</span>
+                        <span class="font-mono text-rose-400 font-bold">0.00%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">A. 流動性模組 (35%)</span><span class="text-sm font-bold font-mono text-sky-400">-0.40</span></div>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">B. 實體成長 (25%)</span><span class="text-sm font-bold font-mono text-emerald-400">-0.70</span></div>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">C. 信用通膨 (20%)</span><span class="text-sm font-bold font-mono text-amber-400">-0.40</span></div>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">D. 情緒估值 (20%)</span><span class="text-sm font-bold font-mono text-rose-400">+1.10</span></div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 space-y-4">
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-500 block uppercase">綜合體制得分 ($I_{regime}$)</span>
+                        <div class="text-3xl font-black font-mono tracking-tight my-1 text-indigo-400">-0.17</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-500 block uppercase">動態負債率 (LTV)</span>
+                        <div class="text-2xl font-black font-mono tracking-tight my-1 text-emerald-400">25.83%</div>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-lg text-xs font-bold text-center border bg-slate-800 text-slate-300 border-slate-700">
+                    平衡：常態歷史均值體制
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5 text-xs">
+                    <span class="text-[11px] font-bold text-indigo-400 block mb-1">⚡ 今日自動分流硬執行預算：</span>
+                    <div class="flex justify-between border-b border-slate-900 py-1">
+                        <span class="text-slate-400">1. 月固定底倉 (0050/QQQ)</span>
+                        <span class="font-bold text-emerald-400 font-mono">40,000 TWD</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-900 py-1">
+                        <span class="text-slate-400">2. 月浮動加碼金</span>
+                        <span class="font-bold text-amber-400 font-mono">10,000 TWD</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-900 py-1">
+                        <span class="text-slate-400">3. 獎金流：補底倉分流 (35%)</span>
+                        <span class="font-bold text-emerald-500 font-mono">70,000 TWD</span>
+                    </div>
+                    <div class="flex justify-between py-1">
+                        <span class="text-slate-400">4. 獎金流：防禦蓄水池 (35%)</span>
+                        <span class="font-bold text-indigo-400 font-mono">70,000 TWD</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 text-xs leading-relaxed font-medium text-slate-300">
+                <strong>【常態紀律執行】</strong>全球總經指標落在常態分位。全美金融條件 (0.0) 與台股均線乖離 (0.0%) 運作正常。剝離主觀情緒，80% 核心底倉持續扣款。
+            </div>
+        </div>
+    </div>
+</body>
+</html>
