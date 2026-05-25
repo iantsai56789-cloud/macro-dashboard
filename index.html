@@ -2,256 +2,203 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>Macro Regime Operating System - Terminal v2.0</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Tactical OS v3.5 - 資金流決策終端</title>
     <style>
-        body { background-color: #05070f; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-green: #238636;
+            --accent-red: #da3633;
+            --accent-orange: #d29922;
+            --accent-blue: #58a6ff;
+            --border-color: #30363d;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 { margin: 0; font-size: 24px; color: #f0f6fc; }
+        .timestamp { font-size: 14px; color: #8b949e; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .card-title { font-size: 18px; font-weight: bold; color: #f0f6fc; }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .bg-success { background-color: var(--accent-green); color: #fff; }
+        .bg-danger { background-color: var(--accent-red); color: #fff; }
+        .bg-warning { background-color: var(--accent-orange); color: #000; }
+        .bg-info { background-color: var(--accent-blue); color: #fff; }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #21262d;
+            font-size: 14px;
+        }
+        .metric-label { color: #8b949e; }
+        .metric-value { font-weight: 500; }
+        
+        .decision-box {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 4px;
+            background-color: #21262d;
+            border-left: 4px solid var(--accent-blue);
+            font-size: 14px;
+            line-height: 1.5;
+        }
     </style>
 </head>
-<body class="p-4 lg:p-8">
+<body>
 
-    <div class="max-w-7xl mx-auto border-b border-slate-800 pb-5 mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+<div class="container">
+    <header>
         <div>
-            <div class="flex items-center gap-2">
-                <span class="h-2 w-2 rounded-full bg-indigo-500 animate-ping"></span>
-                <h1 class="text-lg font-black tracking-widest text-slate-200 uppercase font-mono">Macro Regime OS // Risk Terminal</h1>
-            </div>
-            <p class="text-xs text-indigo-400 font-mono mt-1">架構：三層解耦模組化 // 貝氏機率混合演算引擎 // 家族辦公室風控級</p>
+            <h1>Event-Driven Macro Tactical OS v3.5</h1>
+            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">機構級核心 Proxy Flow 決策系統</div>
         </div>
-        
-        <div class="bg-slate-900 border border-slate-800 rounded-lg p-2 flex items-center gap-2 text-xs">
-            <span class="text-slate-400 font-bold px-2 font-mono">🕒 歷史 Replay 模擬器:</span>
-            <select id="replay_select" class="bg-slate-950 border border-slate-700 rounded px-2 py-1 text-indigo-300 font-mono font-bold focus:outline-none">
-                <option value="LIVE">LIVE (今日最新真實即時同步)</option>
-                <option value="2000_TECH">2000/03 科技泡沫頂點 (極度高估/流動性正常)</option>
-                <option value="2008_CRISIS">2008/10 雷曼兄弟倒閉 (極度危機/流動性斷裂)</option>
-                <option value="2021_HYPER">2021/11 全球超級大通膨 (高估值/再通膨/流動性大氾濫)</option>
-            </select>
+        <div class="timestamp" id="sync-time">讀取中...</div>
+    </header>
+
+    <div class="grid" id="matrix-container">
         </div>
-    </div>
+</div>
 
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <div class="lg:col-span-5 space-y-6">
-            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 space-y-4 text-xs">
-                <h3 class="text-slate-400 font-bold font-mono tracking-wider border-b border-slate-800 pb-2">🛠️ 資本分配與持倉資產設定</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="text-slate-500 block mb-1">月度扣款預算 (TWD)</label>
-                        <input type="number" id="ui_monthly" value="50000" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-indigo-400 font-bold font-mono">
-                    </div>
-                    <div>
-                        <label class="text-slate-500 block mb-1">本期不定期獎金 (TWD)</label>
-                        <input type="number" id="ui_bonus" value="200000" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-amber-400 font-bold font-mono">
-                    </div>
-                    <div>
-                        <label class="text-slate-500 block mb-1">系統總資產估值</label>
-                        <input type="number" id="ui_assets" value="12000000" class="w-full bg-slate-950 border border-slate-800 rounded p-2 font-mono">
-                    </div>
-                    <div>
-                        <label class="text-slate-500 block mb-1">系統總槓桿負債</label>
-                        <input type="number" id="ui_debt" value="3100000" class="w-full bg-slate-950 border border-slate-800 rounded p-2 font-mono">
-                    </div>
-                </div>
-            </div>
+<script>
+    const REGIME_MAP = {
+        "STRONG_CONTINUATION": { text: "強趨勢延續", class: "bg-success" },
+        "TACTICAL_SQUEEZE": { text: "短期空頭擠壓", class: "bg-warning" },
+        "HEALTHY_PULLBACK": { text: "健康回檔", class: "bg-info" },
+        "STRUCTURAL_RETREAT": { text: "結構性撤退", class: "bg-danger" }
+    };
 
-            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 space-y-4 text-xs">
-                <h3 class="text-rose-400 font-bold font-mono tracking-wider border-b border-slate-800 pb-2 flex justify-between items-center">
-                    <span>⚡ 瞬時極端壓力測試 (Stress Test)</span>
-                    <span id="stress_active_tag" class="text-[10px] bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-slate-500">未觸發衝擊</span>
-                </h3>
-                <div class="space-y-3 font-mono">
-                    <div>
-                        <div class="flex justify-between text-slate-400 mb-1">
-                            <span>全球權益股市大盤衝擊</span>
-                            <span id="val_stress_equity" class="text-rose-400 font-bold">0%</span>
-                        </div>
-                        <input type="range" id="stress_equity" min="-50" max="0" value="0" class="w-full accent-rose-500 bg-slate-950 h-1 rounded-lg cursor-pointer">
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-slate-400 mb-1">
-                            <span>長端美債殖利率暴衝</span>
-                            <span id="val_stress_bond" class="text-sky-400 font-bold">+0 bps</span>
-                        </div>
-                        <input type="range" id="stress_bond" min="0" max="250" value="0" class="w-full accent-sky-500 bg-slate-950 h-1 rounded-lg cursor-pointer">
-                    </div>
-                </div>
-            </div>
-        </div>
+    // 模擬當前最新市場新聞敘事對稱評分 (未來將由 NLP 模組動態寫入)
+    const MOCK_NEWS_SENTIMENT = {
+        "AI_Semiconductor": 0.45,   // 媒體高度利多
+        "Financial_Value": 0.10,     // 媒體冷淡
+        "Long_Treasury": -0.25       // 媒體偏向利空
+    };
 
-        <div class="lg:col-span-7 space-y-6">
-            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800">
-                <h3 class="text-xs font-bold text-slate-400 border-b border-slate-800 pb-2 mb-4 font-mono tracking-wider">🎯 貝氏宏觀體制模糊融合機率分佈</h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-center font-mono">
-                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <span class="text-[10px] text-slate-500 block">A. 結構擴張牛市</span>
-                        <div id="prob_bull" class="text-xl font-black text-emerald-400 mt-1">0%</div>
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <span class="text-[10px] text-slate-500 block">B. 流動性斷裂危機</span>
-                        <div id="prob_crisis" class="text-xl font-black text-rose-400 mt-1">0%</div>
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <span class="text-[10px] text-slate-500 block">C. 惡性滯脹/再通膨</span>
-                        <div id="prob_inflation" class="text-xl font-black text-amber-500 mt-1">0%</div>
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <span class="text-[10px] text-slate-500 block">D. 均值修正防守期</span>
-                        <div id="prob_repair" class="text-xl font-black text-sky-400 mt-1">0%</div>
-                    </div>
-                </div>
-            </div>
+    function evaluateTacticalDecision(key, sector) {
+        const core = sector.core_relative_strength;
+        const ve = sector.confirmation_volume_expansion;
+        const trend = sector.structure_trend_alignment;
+        const diff = sector.breadth_diffusion_score;
+        const news = MOCK_NEWS_SENTIMENT[key] || 0.0;
 
-            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/60 font-mono text-center">
-                    <span class="text-xs text-slate-500 block">🚨 壓力測試後：即時 LTV 負債比</span>
-                    <div id="display_ltv" class="text-3xl font-black text-indigo-400 mt-1">0.00%</div>
-                </div>
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/60 font-mono text-center">
-                    <span class="text-xs text-slate-500 block">📉 壓力衝擊下：預估最大資產折損</span>
-                    <div id="display_stress_drawdown" class="text-3xl font-black text-rose-500 mt-1">-$0</div>
-                </div>
-            </div>
+        // 四層過濾金字塔解譯規則
+        if (core.persistence_regime === "STRUCTURAL_RETREAT") {
+            return `<strong>【絕對禁區 / 結構性撤退】</strong>資金流向呈雙時間尺度雙負狀態。此時不論媒體釋放何種利多，皆判定為散戶誘多噪音，系統強制鎖死持倉，嚴禁逆勢接刀。`;
+        }
+        if (core.persistence_regime === "STRONG_CONTINUATION" && trend === 1 && diff >= 0.8) {
+            if (news > 0.2) {
+                return `<strong>【全面多頭共振 (超配 Overweight)】</strong>量價流與敘事層完美合流。雙時間尺度 RS 強勁，成分股達成 <strong>${diff * 100}% 廣度普漲</strong>。新聞利多 (${news}) 成功驗證資金行為，允許最大化戰術傾斜。`;
+            } else {
+                return `<strong>【資金暗流建倉 (主動關注)】</strong>量價與廣度指標皆極度健康，但媒體敘事尚未全面擴散。此為典型機構暗中佈局之低噪 Alpha 機會，可逢低超配。`;
+            }
+        }
+        if (news > 0.4 && (core.persistence_regime === "TACTICAL_SQUEEZE" || diff <= 0.4)) {
+            return `<strong>【警告：媒體末端狂熱 (拒絕交易)】</strong>快速層新聞情緒高昂 (${news})，但底層 <strong>RS 廣度發生嚴重背離 (僅 ${diff * 100}% 成分股在均線上)</strong>。判定為特定權值股硬拉或媒體掩護出貨，堅決拒絕追高。`;
+        }
+        return `<strong>【常態區間震盪】</strong>資金流速與敘事未達共振臨界點，維持基準配置，不執行主動戰術傾斜。`;
+    }
 
-            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 space-y-3 text-xs">
-                <h3 class="text-indigo-400 font-bold font-mono tracking-wider border-b border-slate-800 pb-2">📈 結合機率分佈與通膨過濾之動態作戰決策</h3>
-                <div class="space-y-2 leading-relaxed">
-                    <div class="bg-slate-950 p-3 rounded border border-slate-800/60">
-                        <span class="font-bold text-rose-400 block mb-1">✦ 權益股市戰術建議</span>
-                        <p id="txt_stocks_advice" class="text-slate-300 text-[11px]"></p>
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded border border-slate-800/60">
-                        <span class="font-bold text-sky-400 block mb-1">✦ 固定收益債市戰術 (內建通膨防線)</span>
-                        <p id="txt_bonds_advice" class="text-slate-300 text-[11px]"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const REPLAY_DATABASE = {
-            "LIVE": null,
-            "2000_TECH": { "nfci": -0.52, "sahm_rule": 0.1, "bbb_credit_spread": 1.1, "core_pce_inflation": 2.1, "twii_ma200_deviation": 18.5, "vix_volatility": 14.5 },
-            "2008_CRISIS": { "nfci": 0.85, "sahm_rule": 0.75, "bbb_credit_spread": 4.5, "core_pce_inflation": 1.8, "twii_ma200_deviation": -32.1, "vix_volatility": 48.0 },
-            "2021_HYPER": { "nfci": -0.61, "sahm_rule": 0.0, "bbb_credit_spread": 0.9, "core_pce_inflation": 4.8, "twii_ma200_deviation": 14.2, "vix_volatility": 13.0 }
-        };
-
-        let currentActiveMetrics = null;
-
-        const DecisionEngine = {
-            calculateRegimeProbabilities(metrics) {
-                let d_bull = Math.sqrt(Math.pow(metrics.nfci - (-0.5), 2) + Math.pow(metrics.sahm_rule - 0.1, 2) + Math.pow(metrics.twii_ma200_deviation - 12, 2)/100);
-                let d_crisis = Math.sqrt(Math.pow(metrics.nfci - 0.4, 2) + Math.pow(metrics.sahm_rule - 0.6, 2) + Math.pow(metrics.twii_ma200_deviation - (-15), 2)/100);
-                let d_inflation = Math.sqrt(Math.pow(metrics.core_pce_inflation - 4.0, 2) + Math.pow(metrics.nfci - (-0.4), 2));
-                let d_repair = Math.sqrt(Math.pow(metrics.nfci - 0.0, 2) + Math.pow(metrics.twii_ma200_deviation - (-8), 2)/100);
-
-                let w_bull = Math.exp(-0.5 * d_bull);
-                let w_crisis = Math.exp(-0.5 * d_crisis);
-                let w_inflation = Math.exp(-0.5 * d_inflation);
-                let w_repair = Math.exp(-0.5 * d_repair);
-
-                let sum = w_bull + w_crisis + w_inflation + w_repair;
-                return { bull: w_bull / sum, crisis: w_crisis / sum, inflation: w_inflation / sum, repair: w_repair / sum };
-            },
+    async function loadMacroMetrics() {
+        try {
+            // 防止瀏覽器快取機制鎖死資料
+            const response = await fetch(`macro_metrics.json?t=${new Date().getTime()}`);
+            const data = await response.json();
             
-            getDynamicAdvice(probs, inflationRate) {
-                let stockAdvice = "";
-                let bondAdvice = "";
-
-                if(probs.crisis > 0.35) {
-                    stockAdvice = "<strong>【高度危機防禦模式】</strong>流動性斷裂權重飆高。市場面臨左尾極端清算風險。應<strong>立刻停止主動加碼進場</strong>，全力保留現金部位，僅保留被動大盤底倉。";
-                } else if(probs.bull > 0.35) {
-                    stockAdvice = "<strong>【結構性擴張牛市】</strong>大盤正乖離率偏高。目前策略採<strong>「急漲不追、靜待拉回」</strong>。今日不宜單筆追高，主動加碼預算請先抽回建立現金儲備，待拉回月線/季線再分批布建。";
-                } else {
-                    stockAdvice = "<strong>【常態均值震盪】</strong>市場運作平穩。保持每月的既定紀律定時定額扣款即可，無須過度情緒化操作。";
-                }
-
-                if (inflationRate > 3.5) {
-                    bondAdvice = `<strong>【通膨過濾器熔斷觸發：核心 PCE 高達 ${inflationRate}%】</strong>在此總經環境下，傳統「衰退買長債」的避險邏輯將全面失效（債券會因再通膨利差與赤字失控而暴跌）。<strong>今日強烈建議避免過度加碼長天期美債 (TLT)，新資金應優先流向超短端貨幣市場基金 (SGOV) 或抗通膨公債 (TIPS)</strong>。`;
-                } else if (probs.crisis > 0.3) {
-                    bondAdvice = "<strong>【通膨安全 · 傳統衰退避險生效】</strong>當前流動性緊張且通膨受控，長天期美債將發揮強大對沖股災效益。<strong>維持持債甚至逢低積極買入</strong>。";
-                } else {
-                    bondAdvice = "<strong>【債市基準配置】</strong>宏觀環境無極端訊號。債券端扮演低相關度固定收益，依照原有資產配置比例穩定領息即可。";
-                }
-
-                return { stockAdvice, bondAdvice };
-            }
-        };
-
-        const UIEngine = {
-            init() {
-                const inputs = ['ui_monthly', 'ui_bonus', 'ui_assets', 'ui_debt', 'stress_equity', 'stress_bond', 'replay_select'];
-                inputs.forEach(id => {
-                    document.getElementById(id).addEventListener('input', UIEngine.render);
-                });
-
-                // 優先讀取 Python 產出的真實資料檔
-                fetch('./macro_metrics.json')
-                    .then(res => res.json())
-                    .then(data => {
-                        REPLAY_DATABASE["LIVE"] = data.macro_indicators;
-                        UIEngine.render();
-                    })
-                    .catch(err => {
-                        console.log("JSON 未就緒，使用預設 LIVE 參數");
-                        REPLAY_DATABASE["LIVE"] = { "nfci": -0.45, "sahm_rule": 0.2, "bbb_credit_spread": 1.3, "core_pce_inflation": 2.4, "twii_ma200_deviation": 6.8, "vix_volatility": 14.0 };
-                        UIEngine.render();
-                    });
-            },
-
-            render() {
-                const mode = document.getElementById('replay_select').value;
-                currentActiveMetrics = REPLAY_DATABASE[mode];
-                if(!currentActiveMetrics) return;
-
-                let baseAssets = parseFloat(document.getElementById('ui_assets').value) || 0;
-                let baseDebt = parseFloat(document.getElementById('ui_debt').value) || 0;
-                let sEquity = parseFloat(document.getElementById('stress_equity').value) || 0;
-                let sBondBps = parseFloat(document.getElementById('stress_bond').value) || 0;
-
-                // 壓力測試模擬計算 (假設持倉 60% 股票、25% 長債)
-                let equityLoss = baseAssets * 0.60 * (sEquity / 100);
-                let bondLoss = baseAssets * 0.25 * (-(sBondBps / 100) * 0.15); 
-                let totalLoss = equityLoss + bondLoss;
-
-                let stressedAssets = baseAssets + totalLoss;
-                let stressedLTV = stressedAssets > 0 ? (baseDebt / stressedAssets) * 100 : 0;
-
-                document.getElementById('val_stress_equity').innerText = sEquity + "%";
-                document.getElementById('val_stress_bond').innerText = "+" + sBondBps + " bps";
-                document.getElementById('display_stress_drawdown').innerText = "TWD " + Math.round(totalLoss).toLocaleString();
+            document.getElementById('sync-time').innerText = `系統同步時間: ${data.metadata.timestamp} | Engine: ${data.metadata.engine_version}`;
+            
+            const container = document.getElementById('matrix-container');
+            container.innerHTML = ''; // 清空舊畫面
+            
+            const matrix = data.fast_tactical_flow_matrix;
+            
+            for (const [key, sector] of Object.entries(matrix)) {
+                const regimeInfo = REGIME_MAP[sector.core_relative_strength.persistence_regime] || { text: "未知體制", class: "bg-danger" };
+                const decisionText = evaluateTacticalDecision(key, sector);
                 
-                let viewLtv = document.getElementById('display_ltv');
-                viewLtv.innerText = stressedLTV.toFixed(2) + "%";
-                
-                if(stressedLTV > 45) {
-                    viewLtv.className = "text-3xl font-black text-rose-500 animate-pulse";
-                    document.getElementById('stress_active_tag').innerText = "⚠️ MARGIN CALL RISK HIGH";
-                    document.getElementById('stress_active_tag').className = "text-[10px] bg-rose-950 px-2 py-0.5 rounded border border-rose-800 text-rose-400 font-bold";
-                } else if(sEquity !== 0 || sBondBps !== 0) {
-                    viewLtv.className = "text-3xl font-black text-amber-400";
-                    document.getElementById('stress_active_tag').innerText = "⚡ 壓力衝擊模擬中";
-                    document.getElementById('stress_active_tag').className = "text-[10px] bg-amber-950 px-2 py-0.5 rounded border border-amber-800 text-amber-400 font-bold";
-                } else {
-                    viewLtv.className = "text-3xl font-black text-indigo-400";
-                    document.getElementById('stress_active_tag').innerText = "未觸發衝擊";
-                    document.getElementById('stress_active_tag').className = "text-[10px] bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-slate-500";
-                }
-
-                let probs = DecisionEngine.calculateRegimeProbabilities(currentActiveMetrics);
-                document.getElementById('prob_bull').innerText = (probs.bull * 100).toFixed(0) + "%";
-                document.getElementById('prob_crisis').innerText = (probs.crisis * 100).toFixed(0) + "%";
-                document.getElementById('prob_inflation').innerText = (probs.inflation * 100).toFixed(0) + "%";
-                document.getElementById('prob_repair').innerText = (probs.repair * 100).toFixed(0) + "%";
-
-                let advices = DecisionEngine.getDynamicAdvice(probs, currentActiveMetrics.core_pce_inflation);
-                document.getElementById('txt_stocks_advice').innerHTML = advices.stockAdvice;
-                document.getElementById('txt_bonds_advice').innerHTML = advices.bondAdvice;
+                const cardHtml = `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">${sector.name} (${sector.anchor_ticker})</div>
+                            <span class="badge ${regimeInfo.class}">${regimeInfo.text}</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Fast RS (戰術動能)</span>
+                            <span class="metric-value" style="color: ${sector.core_relative_strength.fast_rs >= 0 ? '#3fb950' : '#f85149'}">${sector.core_relative_strength.fast_rs.toFixed(4)}</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Slow RS (戰略配置)</span>
+                            <span class="metric-value" style="color: ${sector.core_relative_strength.slow_rs >= 0 ? '#3fb950' : '#f85149'}">${sector.core_relative_strength.slow_rs.toFixed(4)}</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Volume Expansion (量能放大倍數)</span>
+                            <span class="metric-value">${sector.confirmation_volume_expansion}x</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Trend Alignment (多頭均線排列)</span>
+                            <span class="metric-value">${sector.structure_trend_alignment === 1 ? '<span style="color:#3fb950">符合 (EMA20 > EMA60)</span>' : '<span style="color:#f85149">不符合</span>'}</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Diffusion Score (板塊多頭廣度)</span>
+                            <span class="metric-value" style="font-weight:bold; color: ${sector.breadth_diffusion_score >= 0.8 ? '#3fb950' : '#8b949e'}">${(sector.breadth_diffusion_score * 100).toFixed(0)}%</span>
+                        </div>
+                        <div class="decision-box">
+                            ${decisionText}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
             }
-        };
+        } catch (error) {
+            console.error("[-] 無法加載量化矩陣數據:", error);
+            document.getElementById('sync-time').innerText = "數據加載錯誤，請檢查 macro_metrics.json 是否已生成。";
+        }
+    }
 
-        UIEngine.init();
-    </script>
+    window.onload = loadMacroMetrics;
+</script>
 </body>
 </html>
