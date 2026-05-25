@@ -30,9 +30,10 @@ jobs:
     - name: 執行量化核心引擎
       run: python update_cockpit.py
 
-    - name: 將生成的網頁發布至 GitHub 儲存庫
+   - name: Commit and Push if data changed
       run: |
-        git config --local user.email "actions@github.com"
+        git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add index.html
-        git diff --quiet && git diff --staged --quiet || (git commit -m "自動同步最新總經體制數據" && git push)
+        git add macro_metrics.json index.html || true
+        git commit -m "🤖 [Automated] Sync Global Macro Metrics and Decoupled Core" || true
+        git push origin main || true
