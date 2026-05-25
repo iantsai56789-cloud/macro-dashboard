@@ -2,100 +2,283 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>永續資本控管中樞 (雲端動態同步版)</title>
+    <title>永續資本動態控管與即時模擬中樞</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #090d16; color: #f1f5f9; font-family: 'PingFang TC', sans-serif; }
+        body { background-color: #070a13; color: #f1f5f9; font-family: 'PingFang TC', system-ui, sans-serif; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
-<body class="p-4 lg:p-6">
+<body class="p-3 md:p-6 lg:p-8">
+
     <div class="max-w-7xl mx-auto border-b border-slate-800 pb-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
             <h1 class="text-xl font-black tracking-wider text-indigo-400 uppercase flex items-center gap-2">
-                <span class="inline-block w-3 h-3 bg-indigo-500 rounded-sm"></span>
-                Institutional Liquidity Regime Overlay System
+                <span class="inline-block w-3 h-3 bg-indigo-500 rounded-sm animate-pulse"></span>
+                Institutional Liquidity Regime & Dynamic Simulation Cockpit
             </h1>
-            <p class="text-slate-400 text-[11px] font-mono mt-0.5">系統狀態：數據每日全自動同步更新 // AUTOMATIC ENGINE ACTIVE</p>
+            <p class="text-slate-400 text-[11px] font-mono mt-0.5">系統狀態：數據每日全自動同步更新 // FRONT-END LIVE SIMULATION ACTIVE</p>
         </div>
         <div class="text-right text-xs text-slate-500 font-mono">
-            最後資料更新時間：<span class="text-indigo-400 font-bold">2026-05-25 18:03</span>
+            今日美聯儲與市場最新同步：<span class="text-indigo-400 font-bold">2026-05-25 18:24</span>
         </div>
     </div>
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-7 space-y-4">
-            <div class="bg-slate-900 rounded-xl p-4 border border-slate-800">
-                <h3 class="text-xs font-bold text-indigo-400 border-b border-slate-800 pb-2 mb-3">📡 今日自動採集權威指標矩陣</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
-                        <span class="text-slate-400">全美金融條件 (FRED: NFCI)</span>
-                        <span class="font-mono text-sky-400 font-bold">0.0 (發布日:N/A)</span>
+        
+        <div class="lg:col-span-5 space-y-6">
+            
+            <div class="bg-slate-900 rounded-xl p-5 border border-indigo-950/60 shadow-xl shadow-indigo-950/10">
+                <h3 class="text-xs font-bold text-indigo-400 border-b border-slate-800 pb-2 mb-4 flex items-center gap-1.5">
+                    ⚙️ 網頁即時模擬控制台 (直接修改免改程式碼)
+                </h3>
+                <div class="space-y-4 text-xs">
+                    <div>
+                        <label class="text-slate-400 block mb-1.5 font-medium">1. 每月常態可投資金額 (TWD)</label>
+                        <input type="number" id="input_monthly" value="50000" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-indigo-300 font-mono text-sm font-bold focus:outline-none focus:border-indigo-500 transition-colors">
                     </div>
-                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
-                        <span class="text-slate-400">薩姆規則衰退指標 (Sahm Rule)</span>
-                        <span class="font-mono text-emerald-400 font-bold">0.0% (發布日:N/A)</span>
+                    <div>
+                        <label class="text-slate-400 block mb-1.5 font-medium">2. 當期大額獎金/非線性利潤入金 (TWD)</label>
+                        <input type="number" id="input_bonus" value="200000" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-amber-300 font-mono text-sm font-bold focus:outline-none focus:border-indigo-500 transition-colors">
                     </div>
-                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
-                        <span class="text-slate-400">BBB級投資公司債利差</span>
-                        <span class="font-mono text-amber-400 font-bold">0.0%</span>
-                    </div>
-                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 flex justify-between">
-                        <span class="text-slate-400">台股大盤 200MA 歷史乖離率</span>
-                        <span class="font-mono text-rose-400 font-bold">0.00%</span>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-slate-400 block mb-1.5 font-medium">3. 系統總資產估值</label>
+                            <input type="number" id="input_assets" value="12000000" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1.5 font-medium">4. 系統總負債金額</label>
+                            <input type="number" id="input_debt" value="3100000" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 font-mono text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
-                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">A. 流動性模組 (35%)</span><span class="text-sm font-bold font-mono text-sky-400">-0.40</span></div>
-                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">B. 實體成長 (25%)</span><span class="text-sm font-bold font-mono text-emerald-400">-0.70</span></div>
-                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">C. 信用通膨 (20%)</span><span class="text-sm font-bold font-mono text-amber-400">-0.40</span></div>
-                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block">D. 情緒估值 (20%)</span><span class="text-sm font-bold font-mono text-rose-400">+1.10</span></div>
+            <div class="bg-slate-900 rounded-xl p-4 border border-slate-800">
+                <h3 class="text-xs font-bold text-slate-400 border-b border-slate-800 pb-2 mb-3">📡 今日自動採集權威指標矩陣</h3>
+                <div class="space-y-2 text-[11px] font-mono">
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800/60 flex justify-between">
+                        <span class="text-slate-400">全美金融條件 (NFCI)</span>
+                        <span class="text-sky-400 font-bold">0.0 <span class="text-slate-600 font-normal">(N/A)</span></span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800/60 flex justify-between">
+                        <span class="text-slate-400">薩姆規則衰退指標 (Sahm Rule)</span>
+                        <span class="text-emerald-400 font-bold">0.0% <span class="text-slate-600 font-normal">(N/A)</span></span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800/60 flex justify-between">
+                        <span class="text-slate-400">BBB級投資公司債利差</span>
+                        <span class="text-amber-400 font-bold">0.0%</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800/60 flex justify-between">
+                        <span class="text-slate-400">台股大盤 200MA 歷史乖離率</span>
+                        <span class="text-rose-400 font-bold">0.00%</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="lg:col-span-5 space-y-4">
-            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-slate-950 p-3 rounded border border-slate-800 text-center">
-                        <span class="text-[10px] text-slate-500 block uppercase">綜合體制得分 ($I_{regime}$)</span>
-                        <div class="text-3xl font-black font-mono tracking-tight my-1 text-indigo-400">-0.17</div>
+        <div class="lg:col-span-7 space-y-6">
+            
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                        <span class="text-[10px] text-slate-500 block font-bold tracking-wider">綜合體制得分 ($I_{regime}$)</span>
+                        <div id="view_regime_score" class="text-2xl font-black font-mono my-0.5 text-indigo-400">0.00</div>
                     </div>
-                    <div class="bg-slate-950 p-3 rounded border border-slate-800 text-center">
-                        <span class="text-[10px] text-slate-500 block uppercase">動態負債率 (LTV)</span>
-                        <div class="text-2xl font-black font-mono tracking-tight my-1 text-emerald-400">25.83%</div>
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                        <span class="text-[10px] text-slate-500 block font-bold tracking-wider">動態負債率 (LTV)</span>
+                        <div id="view_ltv" class="text-2xl font-black font-mono my-0.5">0.00%</div>
                     </div>
-                </div>
-
-                <div class="p-3 rounded-lg text-xs font-bold text-center border bg-slate-800 text-slate-300 border-slate-700">
-                    平衡：常態歷史均值體制
-                </div>
-
-                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5 text-xs">
-                    <span class="text-[11px] font-bold text-indigo-400 block mb-1">⚡ 今日自動分流硬執行預算：</span>
-                    <div class="flex justify-between border-b border-slate-900 py-1">
-                        <span class="text-slate-400">1. 月固定底倉 (0050/QQQ)</span>
-                        <span class="font-bold text-emerald-400 font-mono">40,000 TWD</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-900 py-1">
-                        <span class="text-slate-400">2. 月浮動加碼金</span>
-                        <span class="font-bold text-amber-400 font-mono">10,000 TWD</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-900 py-1">
-                        <span class="text-slate-400">3. 獎金流：補底倉分流 (35%)</span>
-                        <span class="font-bold text-emerald-500 font-mono">70,000 TWD</span>
-                    </div>
-                    <div class="flex justify-between py-1">
-                        <span class="text-slate-400">4. 獎金流：防禦蓄水池 (35%)</span>
-                        <span class="font-bold text-indigo-400 font-mono">70,000 TWD</span>
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 flex flex-col justify-center items-center px-2">
+                        <span class="text-[10px] text-slate-500 block font-bold tracking-wider mb-1">當前判定體制</span>
+                        <div id="view_status_tag" class="text-[11px] font-bold px-2 py-1 rounded w-full border text-center">計算中...</div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 text-xs leading-relaxed font-medium text-slate-300">
-                <strong>【常態紀律執行】</strong>全球總經指標落在常態分位。全美金融條件 (0.0) 與台股均線乖離 (0.0%) 運作正常。剝離主觀情緒，80% 核心底倉持續扣款。
+            <div class="bg-slate-900 rounded-xl p-5 border border-indigo-950/50">
+                <h3 class="text-xs font-bold text-indigo-400 border-b border-slate-800 pb-2 mb-4 flex items-center gap-1.5">
+                    📈 核心大類資產當日具體執行戰術指引
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800/80 flex flex-col justify-between">
+                        <div>
+                            <div class="font-bold text-rose-400 flex items-center gap-1 mb-2">
+                                <span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> 權益股市 (Stocks)
+                            </div>
+                            <p id="advice_stocks" class="text-slate-300 leading-relaxed text-[11px]">載入中...</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800/80 flex flex-col justify-between">
+                        <div>
+                            <div class="font-bold text-sky-400 flex items-center gap-1 mb-2">
+                                <span class="w-1.5 h-1.5 bg-sky-500 rounded-full"></span> 固定收益債市 (Bonds)
+                            </div>
+                            <p id="advice_bonds" class="text-slate-300 leading-relaxed text-[11px]">載入中...</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800/80 flex flex-col justify-between">
+                        <div>
+                            <div class="font-bold text-amber-400 flex items-center gap-1 mb-2">
+                                <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> 現金防禦儲備 (Cash)
+                            </div>
+                            <p id="advice_cash" class="text-slate-300 leading-relaxed text-[11px]">載入中...</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 space-y-3">
+                <h3 class="text-xs font-bold text-slate-400 border-b border-slate-800 pb-2">💵 基於當前體制與你輸入的金額 · 動態預算執行單</h3>
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800/50 space-y-2 text-xs font-mono">
+                    <div class="flex justify-between border-b border-slate-900 pb-1.5">
+                        <span class="text-slate-400">1. 月固定紀律底倉 (如 0050/QQQ)</span>
+                        <span id="res_fixed" class="font-bold text-emerald-400">0 TWD</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-900 pb-1.5">
+                        <span class="text-slate-400">2. 月度動態浮動加碼金</span>
+                        <span id="res_floating" class="font-bold text-amber-400">0 TWD</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-900 pb-1.5">
+                        <span class="text-slate-400">3. 獎金/非線性利潤：核心分流 (35%)</span>
+                        <span id="res_b1" class="font-bold text-emerald-500">0 TWD</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">4. 獎金/非線性利潤：防禦蓄水池儲備 (35%)</span>
+                        <span id="res_b2" class="font-bold text-indigo-400">0 TWD</span>
+                    </div>
+                </div>
+                <div id="view_diagnostic_report" class="bg-slate-950 border border-slate-800/80 p-3.5 rounded-lg text-[11px] leading-relaxed text-slate-400">
+                    計算中...
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <script>
+        // A. 每天由 Python 幫你抓回來的真實世界總經數據硬編碼
+        const GLOBAL_DATA = {
+            fci: 0.0,
+            sahm: 0.0,
+            bbb_spread: 0.0,
+            twii_deviation: 0.0,
+            vix: 14.0
+        };
+
+        // B. 監聽網頁輸入欄位的即時變動
+        const inputs = ['input_monthly', 'input_bonus', 'input_assets', 'input_debt'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', recalculateSystem);
+        });
+
+        // C. 量化核心演算與操作策略診斷矩陣
+        function recalculateSystem() {
+            // 讀取使用者在網頁上填寫的即時數字
+            const monthly = parseFloat(document.getElementById('input_monthly').value) || 0;
+            const bonus = parseFloat(document.getElementById('input_bonus').value) || 0;
+            const assets = parseFloat(document.getElementById('input_assets').value) || 0;
+            const debt = parseFloat(document.getElementById('input_debt').value) || 0;
+
+            // 1. 計算 LTV 負債率
+            const ltv = assets > 0 ? (debt / assets) * 100 : 0;
+            const viewLtv = document.getElementById('view_ltv');
+            viewLtv.innerText = ltv.toFixed(2) + '%';
+            if(ltv > 40) {
+                viewLtv.className = "text-2xl font-black font-mono my-0.5 text-rose-500 animate-pulse";
+            } else if(ltv > 30) {
+                viewLtv.className = "text-2xl font-black font-mono my-0.5 text-amber-400";
+            } else {
+                viewLtv.className = "text-2xl font-black font-mono my-0.5 text-emerald-400";
+            }
+
+            // 2. 計算總經體制得分
+            const s_fci = GLOBAL_DATA.fci > 0 ? 1.5 : -1.0;
+            const m_liquidity = (s_fci * 0.6) + (-0.5 * 0.4); 
+            const s_sahm = GLOBAL_DATA.sahm >= 0.5 ? 2.5 : -0.5;
+            const s_growth_proxy = GLOBAL_DATA.twii_deviation > 5 ? 1.5 : -1.0;
+            const m_growth = (s_sahm * 0.6) + (s_growth_proxy * 0.4);
+            const s_spread = GLOBAL_DATA.bbb_spread > 2.0 ? 2.0 : -0.8;
+            const m_credit = (s_spread * 0.5) + (0.0 * 0.5);
+            const m_sentiment = (2.2 * 0.5) + ((GLOBAL_DATA.vix < 14 && GLOBAL_DATA.twii_deviation > 8) ? 1.5 : 0.0 * 0.5);
+
+            const score = (m_liquidity * 0.35) + (m_growth * 0.25) + (m_credit * 0.20) + (m_sentiment * 0.20);
+            document.getElementById('view_regime_score').innerText = (score >= 0 ? '+' : '') + score.toFixed(2);
+
+            // 3. 根據數據動態分流與判定操作指引
+            let act_fixed = monthly * 0.8;
+            let act_floating = monthly * 0.2;
+            
+            let statusTitle = "";
+            let statusClass = "";
+            let reportText = "";
+            
+            // 具體大類資產指引字串
+            let adviceStocks = "";
+            let adviceBonds = "";
+            let adviceCash = "";
+
+            if (GLOBAL_DATA.fci > 0.1 || GLOBAL_DATA.sahm >= 0.5 || m_liquidity >= 0.8) {
+                // 體制 A：流動性斷裂 / 衰退危機體制
+                statusTitle = "危險：危機衰退體制";
+                statusClass = "bg-rose-950/40 text-rose-400 border-rose-800";
+                act_floating = 0;
+                reportText = `<strong>【最高級防禦】</strong>全美金融條件指數已拉警報或薩姆規則已觸發。月度浮動預算<strong>強制歸零攔截</strong>，全力保留現金，綜合 LTV 必須嚴格壓低，準備應對左尾清算。`;
+                
+                adviceStocks = "<strong>【絕對禁止追高】</strong>基本面拉響警報！股市若出現反彈，屬於高風險「逃命波」。<strong>停止一切主動分批進場</strong>，不建新倉，只保留核心被動底倉，等待大盤跌破均線並確認恐慌盤湧出時再分批抄底。";
+                adviceBonds = "<strong>【逢低強勢買入 / 持債觀望】</strong>隨著衰退風險飆升，美聯儲必定被迫降息。此時長天期美債（如 TLT）價格將迎來強勁噴發。<strong>絕對不要減持債券</strong>，這是最核心的避險防線，甚至應逢高鎖利或持續增持長債以對沖股災。";
+                adviceCash = "<strong>【現金為王，全力抽回】</strong>立刻清算非核心的投機性商品、垃圾債、或高溢價個股。<strong>將這筆釋出的資金全額轉為美元高利定存或貨幣基金</strong>。若動態 LTV 高於 30%，必須優先用現金償還負債，確保系統絕對安全。";
+            
+            } else if (GLOBAL_DATA.twii_deviation > 8.0 && GLOBAL_DATA.fci < -0.4) {
+                // 體制 B：高估值結構擴張牛市 (1995/2026模式)
+                statusTitle = "結構：高估值擴張牛市";
+                statusClass = "bg-emerald-950/30 text-emerald-400 border-emerald-800";
+                act_floating = monthly * 0.1; // 釋放一半，另一半留存
+                reportText = `<strong>【結構牛市紀律】</strong>當前台股 200MA 正乖離達 ${GLOBAL_DATA.twii_deviation.toFixed(1)}%，市場情緒亢奮。但由於美聯儲金融條件為寬鬆的 ${GLOBAL_DATA.fci}，並未斷裂。判定為典型『高估值擴張牛』。底倉雷打不動，浮動資金減半順勢配置。`;
+                
+                adviceStocks = "<strong>【股市急漲不追 · 靜待拉回】</strong>當前正乖離率極高，極易遭遇短線獲利回吐。<strong>千萬不要在今日追高進場</strong>。常態定時定額持續，但主動浮動資金應保持觀望，<strong>靜待大盤拉回至 20日均線（月線）或 60日均線（季線）</strong>時，再分批布建倉位。";
+                adviceBonds = "<strong>【債市逢高鎖利 / 停止增持】</strong>經濟處於強勢擴張期，殖利率可能會維持在高位橫盤。若你之前在低點佈局的債券因短期波動而上漲，<strong>可適度逢高鎖利（賣出部分）</strong>，或者暫停投入新資金，保持基準配置即可，不宜過度重倉。";
+                adviceCash = "<strong>【建立防禦蓄水池】</strong>股市高檔震盪時最適合累積子彈。將今日釋出之 50% 浮動加碼金與部分獎金流<strong>存入高利活存或短天期國庫券</strong>，建立現金防禦部位，耐心地把現金水位拉高，等待下一次市場估值修正。";
+
+            } else if (score < -0.3) {
+                // 體制 C：價值回檔修正體制
+                statusTitle = "機會：價值回檔配置體制";
+                statusClass = "bg-amber-950/40 text-amber-400 border-amber-800";
+                reportText = `綜合體制得分為負值 (${score.toFixed(2)})。基本面無異常，信用利差平穩，大盤純屬技術性修正。20% 浮動加碼金全額解凍，簡化攔截，全額市價進場吸納打折的核心股權。`;
+                
+                adviceStocks = "<strong>【黃金買點 · 分批加碼進場】</strong>大盤出現顯著技術性拉回，市場充斥散戶恐慌情緒。這正是機構投資人最愛的『好公司打折期』。<strong>勇敢啟動浮動加碼金，市價分批進場</strong>（加碼 0050/QQQ），迅速布建中長期核心股權。";
+                adviceBonds = "<strong>【債市持債看穩】</strong>此時市場可能因流動性需求短暫拋售債券導致債價下跌、殖利率攀升。這不是壞事，<strong>不要減持</strong>。如果現金充裕，反而可以趁債市回檔時鎖定高殖利率。";
+                adviceCash = "<strong>【抽調現金部位投入股市】</strong>此時是執行「現金轉資產」的黃金交叉點。<strong>將過去儲備的防禦蓄水池現金解凍</strong>，分批注入股市。這時候不需要過度保留現金，因為風險溢酬已經極具吸引力。";
+
+            } else {
+                // 體制 D：常態歷史均值體制
+                statusTitle = "平衡：常態歷史均值體制";
+                statusClass = "bg-slate-800 text-slate-300 border-slate-700";
+                reportText = `全球總經指標落在常態分位。全美金融條件 (${GLOBAL_DATA.fci}) 與台股均線乖離 (${GLOBAL_DATA.twii_deviation.toFixed(1)}%) 運作正常。剝離情緒，80% 核心底倉常態扣款。`;
+                
+                adviceStocks = "<strong>【規律紀律扣款】</strong>市場無極端亢奮也無極端恐慌。股市依既定計畫進行定時定額投資，不追高也不殺跌，保持機械化操作。";
+                adviceBonds = "<strong>【均衡配置領息】</strong>債市價格平穩。保持常態比例，按時領取債息並將利息滾入再投資，維持股債平衡。";
+                adviceCash = "<strong>【標準防禦配置】</strong>維持常態 3-6 個月的緊急預備金即可。負債端維持正常還款進度，不需要刻意拉高或降低現金水位。";
+            }
+
+            // 4. 更新前端網頁元件顯示
+            document.getElementById('view_status_tag').innerText = statusTitle;
+            document.getElementById('view_status_tag').className = "text-[11px] font-bold px-2 py-1 rounded w-full border text-center " + statusClass;
+            document.getElementById('view_diagnostic_report').innerHTML = reportText;
+            
+            document.getElementById('advice_stocks').innerHTML = adviceStocks;
+            document.getElementById('advice_bonds').innerHTML = adviceBonds;
+            document.getElementById('advice_cash').innerHTML = adviceCash;
+
+            // 5. 計算動態分流金額並格式化輸出
+            document.getElementById('res_fixed').innerText = Math.round(act_fixed).toLocaleString() + ' TWD';
+            document.getElementById('res_floating').innerText = Math.round(act_floating).toLocaleString() + ' TWD';
+            document.getElementById('res_b1').innerText = Math.round(bonus * 0.35).toLocaleString() + ' TWD';
+            document.getElementById('res_b2').innerText = Math.round(bonus * 0.35).toLocaleString() + ' TWD';
+        }
+
+        // 初始化第一次運行
+        recalculateSystem();
+    </script>
 </body>
 </html>
