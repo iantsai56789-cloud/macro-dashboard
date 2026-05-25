@@ -1,0 +1,38 @@
+name: Daily Macro Regime Update
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 1 * * *' # 每天台灣時間早上 09:00 自動運行
+  workflow_dispatch: # 允許手動點擊更新
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 強制開通雲端伺服器寫入權限，拒絕留白
+      
+    steps:
+    - name: 複製雲端程式碼
+      uses: actions/checkout@v3
+
+    - name: 設定 Python 環境
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 安裝必要依賴套件
+      run: |
+        pip install requests pandas
+
+    - name: 執行量化核心引擎
+      run: python update_cockpit.py
+
+    - name: 將生成的網頁發布至 GitHub 儲存庫
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Action"
+        git add index.html
+        git diff --quiet && git diff --staged --quiet || (git commit -m "自動同步最新總經體制數據" && git push)
