@@ -1,39 +1,37 @@
 name: Daily Macro Regime Update
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 1 * * *' # 每天台灣時間早上 09:00 自動運行
-  workflow_dispatch: # 允許手動點擊更新
+    - cron: '0 22 * * *'
+  workflow_dispatch:
 
 jobs:
-  build:
+  update-macro-data:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # 強制開通雲端伺服器寫入權限，拒絕留白
+      contents: write
       
     steps:
-    - name: 複製雲端程式碼
-      uses: actions/checkout@v3
+    - name: Check out repository
+      uses: actions/checkout@v4
 
-    - name: 設定 Python 環境
-      uses: actions/setup-python@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: 安裝必要依賴套件
+    - name: Install dependencies
       run: |
+        python -m pip install --upgrade pip
         pip install requests pandas
 
-    - name: 執行量化核心引擎
+    - name: Run Data Engine
       run: python update_cockpit.py
 
-   - name: Commit and Push if data changed
+    - name: Commit and Push if data changed
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add macro_metrics.json index.html || true
+        git add macro_metrics.json || true
         git commit -m "🤖 [Automated] Sync Global Macro Metrics and Decoupled Core" || true
         git push origin main || true
